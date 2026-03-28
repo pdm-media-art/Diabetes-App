@@ -68,6 +68,18 @@ let streaks = {
 const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
 
 async function analyzeMeal(description: string) {
+  if (!process.env.GEMINI_API_KEY) {
+    console.warn("GEMINI_API_KEY is not set. Using fallback analysis.");
+    return {
+      gps_status: "CLEAR",
+      detected_items: [],
+      feedback_message: "Logged successfully (AI disabled).",
+      suggested_swap: null,
+      xp_impact: 25,
+      score_impact: 0
+    };
+  }
+
   const prompt = `
 You are the GPS Guard for the 90-Day Metabolic Reset app. Analyze the user's meal input and classify it.
 
@@ -95,7 +107,7 @@ Tone: Supportive coach, never judgmental. Always educational.
 
   try {
     const result = await genAI.models.generateContent({
-      model: "gemini-1.5-flash",
+      model: "gemini-3-flash-preview",
       contents: [{ parts: [{ text: prompt }] }]
     });
     const text = result.text;
@@ -267,9 +279,8 @@ async function startServer() {
   // Vite middleware
   const isProd = process.env.NODE_ENV === "production";
   const distPath = path.join(process.cwd(), "dist");
-  const hasDist = fs.existsSync(distPath);
 
-  if (!isProd && !hasDist) {
+  if (!isProd) {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
@@ -289,10 +300,15 @@ async function startServer() {
       }
     });
   } else {
-    app.use(express.static(distPath));
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
-    });
+    if (fs.existsSync(distPath)) {
+      app.use(express.static(distPath));
+      app.get("*", (req, res) => {
+        res.sendFile(path.join(distPath, "index.html"));
+      });
+    } else {
+      console.warn("Production mode enabled but 'dist' directory not found. Falling back to dev mode logic (this might fail in production).");
+      // Fallback or error
+    }
   }
 
   app.listen(PORT, "0.0.0.0", () => {

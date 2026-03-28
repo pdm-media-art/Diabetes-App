@@ -57,17 +57,17 @@ export default function Learn() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05 }}
-                  onClick={() => i < 3 && setSelectedLesson(l)}
-                  className={`bg-white p-5 rounded-2xl border border-gray-100 flex items-center gap-4 shadow-sm transition-transform active:scale-[0.98] ${i < 3 ? 'cursor-pointer' : 'opacity-60'}`}
+                  onClick={() => setSelectedLesson(l)}
+                  className={`bg-white p-5 rounded-2xl border border-gray-100 flex items-center gap-4 shadow-sm transition-transform active:scale-[0.98] cursor-pointer`}
                 >
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl ${i < 3 ? 'bg-[#E8F6F3] text-[#0D7377]' : 'bg-gray-50 text-gray-300'}`}>
-                    {i < 3 ? <BookOpen size={20} /> : <Lock size={20} />}
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl bg-[#E8F6F3] text-[#0D7377]`}>
+                    <BookOpen size={20} />
                   </div>
                   <div className="flex-1">
                     <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{l.cat} · {l.dur}</div>
-                    <h3 className={`font-bold ${i < 3 ? 'text-gray-800' : 'text-gray-400'}`}>{l.title}</h3>
+                    <h3 className={`font-bold text-gray-800`}>{l.title}</h3>
                   </div>
-                  {i < 3 ? <CheckCircle size={16} className="text-[#14A085]" /> : <Lock size={14} className="text-gray-300" />}
+                  <CheckCircle size={16} className="text-[#14A085]" />
                 </motion.div>
               ))}
             </div>

@@ -40,6 +40,7 @@ function NavItem({ to, icon, label }: any) {
 }
 
 export default function App() {
+  console.log('App component rendering...');
   return (
     <AppProvider>
       <Router>
