@@ -10,7 +10,7 @@ export default function Splash() {
   useEffect(() => {
     if (!loading) {
       const timer = setTimeout(() => {
-        if (profile && profile.name !== "Guest") {
+        if (profile && profile.name && profile.name !== "Guest") {
           navigate('/home');
         } else {
           navigate('/onboarding');
