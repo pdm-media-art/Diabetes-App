@@ -6,7 +6,24 @@
     <title>90-Day Metabolic Reset</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div style="padding: 20px; font-family: sans-serif; text-align: center;">
+        <h2>Loading 90-Day Reset...</h2>
+        <p>If this message persists, please check your internet connection or try refreshing.</p>
+      </div>
+    </div>
+    <script>
+      window.onerror = function(message, source, lineno, colno, error) {
+        const root = document.getElementById('root');
+        if (root && root.innerHTML === '') {
+          root.innerHTML = '<div style="padding: 20px; color: red; font-family: sans-serif;">' +
+            '<h2>Runtime Error Detected</h2>' +
+            '<p>' + message + '</p>' +
+            '<p>Source: ' + source + ':' + lineno + ':' + colno + '</p>' +
+            '</div>';
+        }
+      };
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
