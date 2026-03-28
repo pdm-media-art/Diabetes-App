@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, NavLink, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, NavLink, useLocation } from 'react-router-dom';
 import { Home as HomeIcon, TrendingUp, BookOpen, Users, User } from 'lucide-react';
 import { AppProvider } from './context/AppContext';
 import Splash from './screens/Splash';
